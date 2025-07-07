@@ -3,10 +3,10 @@
 
 ### Frontend - NextJS, React
 
-cd score_frontend
-npm install
-npm run dev
+### cd score_frontend
+### npm install
+### npm run dev
 
-O Frontend rodará  em http://localhost:3000.
+### O Frontend rodará  em http://localhost:3000.
 
 
