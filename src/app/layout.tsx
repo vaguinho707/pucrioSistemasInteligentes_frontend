@@ -16,7 +16,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', background: 'var(--background-gradient)' }}>
+          <main style={{ width: '100%', maxWidth: '600px', padding: '2rem 1rem' }}>
+            {children}
+          </main>
+        </div>
+      </body>
     </html>
   )
 }

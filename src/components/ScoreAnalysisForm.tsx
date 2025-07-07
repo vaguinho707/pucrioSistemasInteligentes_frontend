@@ -7,38 +7,56 @@ interface Props {
 }
 
 export default function ScoreAnalysisForm({ onSubmit, isLoading }: Props) {
-  const [formData, setFormData] = useState<CustomerData>({
-    age: 0,
-    annual_salary: 0,
-    num_accounts: 0,
-    loan_interest: 0,
-    num_loans: 0,
-    days_overdue: 0,
-    num_late_payments: 0,
-    total_debt: 0,
+  type FormDataStrings = {
+    age: string;
+    annual_salary: string;
+    num_accounts: string;
+    loan_interest: string;
+    num_loans: string;
+    days_overdue: string;
+    num_late_payments: string;
+    total_debt: string;
+  };
+
+  const [formData, setFormData] = useState<FormDataStrings>({
+    age: '',
+    annual_salary: '',
+    num_accounts: '',
+    loan_interest: '',
+    num_loans: '',
+    days_overdue: '',
+    num_late_payments: '',
+    total_debt: '',
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    await onSubmit(formData);
+    // Convert string values to numbers for CustomerData
+    const data: CustomerData = {
+      age: Number(formData.age),
+      annual_salary: Number(formData.annual_salary),
+      num_accounts: Number(formData.num_accounts),
+      loan_interest: Number(formData.loan_interest),
+      num_loans: Number(formData.num_loans),
+      days_overdue: Number(formData.days_overdue),
+      num_late_payments: Number(formData.num_late_payments),
+      total_debt: Number(formData.total_debt),
+    };
+    await onSubmit(data);
   };
 
-const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  const { name, value } = e.target;
-  setFormData(prev => ({
-    ...prev,
-    [name]: 
-      ['annual_salary', 'loan_interest', 'total_debt'].includes(name)
-        ? parseFloat(value)
-        : parseInt(value, 10)
-  }));
-};
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-md">
-      <h2 className="text-2xl font-bold mb-6 text-gray-800">Credit Score Analysis</h2>
-      
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <form onSubmit={handleSubmit} style={{ boxShadow: '0 4px 24px 0 rgba(0,0,0,0.07)', borderRadius: '16px', background: '#fff', padding: '2.5rem 2rem', margin: '2rem 0' }}>
+      <h2 style={{ fontSize: '2rem', fontWeight: 700, marginBottom: '2rem', color: '#2563eb', textAlign: 'center', letterSpacing: '-1px' }}>Credit Score Analysis</h2>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem', maxWidth: 600, margin: '0 auto' }}>
         <div>
           <label htmlFor="age" className="block text-sm font-medium text-gray-700 mb-1">
             Age
@@ -50,7 +68,7 @@ const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
             min="18"
             max="100"
             required
-            value={formData.age || ''}
+            value={formData.age}
             onChange={handleChange}
             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
@@ -67,7 +85,7 @@ const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
             min="0"
             step="0.01"
             required
-            value={formData.annual_salary || ''}
+            value={formData.annual_salary}
             onChange={handleChange}
             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
@@ -83,7 +101,7 @@ const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
             name="num_accounts"
             min="0"
             required
-            value={formData.num_accounts || ''}
+            value={formData.num_accounts}
             onChange={handleChange}
             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
@@ -101,7 +119,7 @@ const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
             max="100"
             step="0.01"
             required
-            value={formData.loan_interest || ''}
+            value={formData.loan_interest}
             onChange={handleChange}
             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
@@ -173,15 +191,24 @@ const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         </div>
       </div>
 
-      <div className="mt-8">
+      <div style={{ gridColumn: '1 / -1', marginTop: '2.5rem' }}>
         <button
           type="submit"
           disabled={isLoading}
-          className={`w-full py-3 px-4 text-white font-medium rounded-md ${
-            isLoading
-              ? 'bg-blue-400 cursor-not-allowed'
-              : 'bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500'
-          }`}
+          style={{
+            width: '100%',
+            padding: '1rem',
+            fontSize: '1.1rem',
+            fontWeight: 600,
+            borderRadius: '8px',
+            background: isLoading ? '#93c5fd' : '#2563eb',
+            color: '#fff',
+            cursor: isLoading ? 'not-allowed' : 'pointer',
+            boxShadow: '0 2px 8px 0 rgba(37,99,235,0.08)',
+            border: 'none',
+            transition: 'background 0.2s',
+            opacity: isLoading ? 0.7 : 1
+          }}
         >
           {isLoading ? 'Analyzing...' : 'Analyze Credit Score'}
         </button>

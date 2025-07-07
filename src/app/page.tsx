@@ -42,7 +42,18 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-gray-50 py-8">
       <div className="container mx-auto px-4">
-        <h1 className="text-4xl font-bold text-center text-gray-800 mb-8">
+        <h1
+          style={{
+            fontSize: '2.7rem',
+            fontWeight: 800,
+            textAlign: 'center',
+            color: '#2563eb',
+            marginBottom: '2.5rem',
+            letterSpacing: '-1.5px',
+            textShadow: '0 2px 12px rgba(37,99,235,0.08)',
+            lineHeight: 1.1,
+          }}
+        >
           Credit Score Analyzer
         </h1>
 
@@ -55,12 +66,33 @@ export default function Home() {
         )}
 
         {result && (
-          <div className="mt-8 p-6 bg-white rounded-lg shadow-md">
-            <h2 className="text-2xl font-semibold mb-4">Analysis Result</h2>
-            <div className="flex items-center justify-center">
-              <div className={`text-4xl font-bold ${getScoreColor(result.credit_score)}`}>
+          <div style={{
+            marginTop: '2.5rem',
+            padding: '2rem',
+            background: '#fff',
+            borderRadius: '16px',
+            boxShadow: '0 4px 24px 0 rgba(0,0,0,0.07)',
+            textAlign: 'center',
+            maxWidth: 480,
+            marginLeft: 'auto',
+            marginRight: 'auto',
+          }}>
+            <h2 style={{ fontSize: '1.7rem', fontWeight: 700, marginBottom: '1.5rem', color: '#2563eb' }}>Analysis Result</h2>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1rem' }}>
+              <span style={{
+                fontSize: '2.5rem',
+                fontWeight: 700,
+                color:
+                  result.credit_score.toLowerCase() === 'alto' ? '#16a34a' :
+                  result.credit_score.toLowerCase() === 'regular' ? '#eab308' :
+                  result.credit_score.toLowerCase() === 'baixo' ? '#dc2626' : '#222',
+                letterSpacing: '-1px',
+                padding: '0.5rem 1.5rem',
+                borderRadius: '8px',
+                boxShadow: '0 2px 8px 0 rgba(37,99,235,0.04)'
+              }}>
                 {result.credit_score}
-              </div>
+              </span>
             </div>
           </div>
         )}
